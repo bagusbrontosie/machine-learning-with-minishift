@@ -7,7 +7,6 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
 
 def start():
-
     batch_size = 128
     num_classes = 10
     epochs = 12
