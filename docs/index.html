@@ -209,50 +209,42 @@
 <li>If you&apos;ve not done so already, log in to your GitHub account (or create one <a href="https://github.com/join" target="_blank">here</a> .</li>
 <li>Head back to this <a href="https://github.com/IraAngeles-IBM/machine-learning-with-minishift" target="_blank">repository</a> and then click the fork button at the very top of the UI. It looks like this:</li>
 </ol>
-<pre><code class="lang-https://github.com/IraAngeles-IBM/machine-learning-with-minishift```">
-![An image highlighting to fork button](/resources/fork_btn.png)
-
-This will create a copy of this repository that you&apos;ll be able to make changes to, and deploy from.
-
-3. Once the forking process has completed, you need to clone it to your local system. You can do this by clicking the green &quot;Clone or download&quot; button just beneath the navigation for your repo, and then copying either the HTTPS or SSH link in the dialog that appears.
-
-![An image highlighting to fork button](/resources/clone.png)
-![An image highlighting to fork button](/resources/clone_link.png)
-
-4. Once you&apos;ve copied either link, head to your terminal and enter: `git clone &lt;URL YOU JUST COPIED&gt;`
-
-5. This will copy your forked version of the project to your local system. Now we&apos;re ready to start building a neural network! &#x1F389;
-
-## A Quick Tour
-
-If you take a moment to look at the project you just cloned, you&apos;ll see a bunch of files and folders. Here is a brief description of each one
-
-1. `reference` - A complete implementation of the project that we&apos;ll be making.
-2. `app.py` - The main entry point for our program. When we run our project shortly, Minishift will look for and execute this script
-3. `requirements.txt` - A text file which describes which dependencies our project will need to install to support our program.
-4. `server.py` - The code that will serve our prediction web app.
-5. `train.py` - The code that contains our neural network which will begin training the first time we run our app.
-
-## Building Our Neural Network
-
-### Importing Dependencies
-Before we can worry about training and/or deploying our neural network, we first need to construct it! We&apos;ll be using the demo code from the Keras documentation to get us started quickly. You can [head over there](https://keras.io/examples/mnist_cnn/) to read about that (or other examples), or you can stick around here where we&apos;ll walk through a few of the blocks of code and explain their function as we work through them.
-
-With your favourite IDE, open the file `train.py`. This is where the code that creates, trains, and stores our model for later deployment will live.
-
-First, we need to import the dependencies that our project will need to run. You don&apos;t need to have these installed on your system, Minishift will take care of this later.
-
-In `train.py` copy and paste the following code block at the top of the file:
-
-
-```python
-import tensorflow as tf
-import keras
-from keras.datasets import mnist
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
-from keras.layers import Conv2D, MaxPooling2D
-from keras import backend as K
+<p><code>https://github.com/IraAngeles-IBM/machine-learning-with-minishift</code></p>
+<p><img src="resources/fork_btn.png" alt="An image highlighting to fork button"></p>
+<p>This will create a copy of this repository that you&apos;ll be able to make changes to, and deploy from.</p>
+<ol>
+<li>Once the forking process has completed, you need to clone it to your local system. You can do this by clicking the green &quot;Clone or download&quot; button just beneath the navigation for your repo, and then copying either the HTTPS or SSH link in the dialog that appears.</li>
+</ol>
+<p><img src="resources/clone.png" alt="An image highlighting to fork button">
+<img src="resources/clone_link.png" alt="An image highlighting to fork button"></p>
+<ol>
+<li><p>Once you&apos;ve copied either link, head to your terminal and enter: <code>git clone &lt;URL YOU JUST COPIED&gt;</code></p>
+</li>
+<li><p>This will copy your forked version of the project to your local system. Now we&apos;re ready to start building a neural network! &#x1F389;</p>
+</li>
+</ol>
+<h2 id="a-quick-tour">A Quick Tour</h2>
+<p>If you take a moment to look at the project you just cloned, you&apos;ll see a bunch of files and folders. Here is a brief description of each one</p>
+<ol>
+<li><code>reference</code> - A complete implementation of the project that we&apos;ll be making.</li>
+<li><code>app.py</code> - The main entry point for our program. When we run our project shortly, Minishift will look for and execute this script</li>
+<li><code>requirements.txt</code> - A text file which describes which dependencies our project will need to install to support our program.</li>
+<li><code>server.py</code> - The code that will serve our prediction web app.</li>
+<li><code>train.py</code> - The code that contains our neural network which will begin training the first time we run our app.</li>
+</ol>
+<h2 id="building-our-neural-network">Building Our Neural Network</h2>
+<h3 id="importing-dependencies">Importing Dependencies</h3>
+<p>Before we can worry about training and/or deploying our neural network, we first need to construct it! We&apos;ll be using the demo code from the Keras documentation to get us started quickly. You can <a href="https://keras.io/examples/mnist_cnn/" target="_blank">head over there</a> to read about that (or other examples), or you can stick around here where we&apos;ll walk through a few of the blocks of code and explain their function as we work through them.</p>
+<p>With your favourite IDE, open the file <code>train.py</code>. This is where the code that creates, trains, and stores our model for later deployment will live.</p>
+<p>First, we need to import the dependencies that our project will need to run. You don&apos;t need to have these installed on your system, Minishift will take care of this later.</p>
+<p>In <code>train.py</code> copy and paste the following code block at the top of the file:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf
+<span class="hljs-keyword">import</span> keras
+<span class="hljs-keyword">from</span> keras.datasets <span class="hljs-keyword">import</span> mnist
+<span class="hljs-keyword">from</span> keras.models <span class="hljs-keyword">import</span> Sequential
+<span class="hljs-keyword">from</span> keras.layers <span class="hljs-keyword">import</span> Dense, Dropout, Flatten
+<span class="hljs-keyword">from</span> keras.layers <span class="hljs-keyword">import</span> Conv2D, MaxPooling2D
+<span class="hljs-keyword">from</span> keras <span class="hljs-keyword">import</span> backend <span class="hljs-keyword">as</span> K
 </code></pre>
 <h3 id="preparing-our-data-for-training">Preparing our data for training</h3>
 <p>Next, we&apos;ll create a function <code>start</code> which our application will call to start training our model when we spin up our container (if a model hasn&apos;t already been trained).</p>
@@ -553,7 +545,7 @@ stored_model = <span class="hljs-keyword">None</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lab 1 - Training and Deploying Machine Learning Models with Containers","level":"1.1","depth":1,"next":{"title":"Lab 1.1 - Increasing CPU and Memory","level":"1.1.1","depth":2,"path":"CPU-MEMORY.md","ref":"CPU-MEMORY.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2020-01-14T05:55:37.403Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-01-14T06:01:45.401Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lab 1 - Training and Deploying Machine Learning Models with Containers","level":"1.1","depth":1,"next":{"title":"Lab 1.1 - Increasing CPU and Memory","level":"1.1.1","depth":2,"path":"CPU-MEMORY.md","ref":"CPU-MEMORY.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2020-01-14T06:06:12.301Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-01-14T06:06:39.543Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
