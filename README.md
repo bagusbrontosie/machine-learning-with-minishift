@@ -61,7 +61,9 @@ So we can get the full benefit of Minishift's ability to pull code from a centra
 You can do that with the following steps
 
 1. If you've not done so already, log in to your GitHub account (or create one [here](https://github.com/join) .
-2. Head back to this repository and then click the fork button at the very top of the UI. It looks like this:
+2. Head back to this [repository](https://github.com/IraAngeles-IBM/machine-learning-with-minishift) and then click the fork button at the very top of the UI. It looks like this:
+
+```https://github.com/IraAngeles-IBM/machine-learning-with-minishift```
 
 ![An image highlighting to fork button](/resources/fork_btn.png)
 
