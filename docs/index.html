@@ -237,7 +237,7 @@
 <p>Before we can worry about training and/or deploying our neural network, we first need to construct it! We&apos;ll be using the demo code from the Keras documentation to get us started quickly. You can <a href="https://keras.io/examples/mnist_cnn/" target="_blank">head over there</a> to read about that (or other examples), or you can stick around here where we&apos;ll walk through a few of the blocks of code and explain their function as we work through them.</p>
 <p>With your favourite IDE, open the file <code>train.py</code>. This is where the code that creates, trains, and stores our model for later deployment will live.</p>
 <p>First, we need to import the dependencies that our project will need to run. You don&apos;t need to have these installed on your system, Minishift will take care of this later.</p>
-<p>In <code>train.py</code> copy and paste the following code block at the top of the file:</p>
+<p>In <code>train.py</code> the following code block at the top of the file:</p>
 <pre><code class="lang-python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf
 <span class="hljs-keyword">import</span> keras
 <span class="hljs-keyword">from</span> keras.datasets <span class="hljs-keyword">import</span> mnist
@@ -315,7 +315,7 @@
 <p>Finally, we have two more layers of neurons. Another dropout layer, and another Densely connected layer. The final layer has the same number of outputs as the number of classes that we wish to categorise our images as. Each neuron corresponds to a label for each class, whichever neuron has the highest activation value will be the classification assigned to the image passed through to the network for training / prediction.</p>
 <h3 id="compiling-our-model-and-training">Compiling our model and training</h3>
 <p>Now that we&apos;ve constructed our model, it&apos;s time to compile it. This is the stage where we tell our neural networks how to measure it&apos;s success in categorising a given input, and start passing through data for training</p>
-<p>First, we&apos;ll copy and paste the code that will compile our model on a new line after out last code snippet.</p>
+<p>The following is the code that will compile our model on a new line after out last code snippet.</p>
 <pre><code class="lang-python">    model.compile(loss=keras.losses.categorical_crossentropy,
                 optimizer=keras.optimizers.Adadelta(),
                 metrics=[<span class="hljs-string">&apos;accuracy&apos;</span>])
@@ -332,16 +332,15 @@
 </code></pre>
 <h3 id="saving-our-model">Saving our model</h3>
 <p>Once our network has been trained, it&apos;s time to save our model so we can use it later. Fortunately, this is a comparatively simple affair.</p>
-<p>Copy and paste the following line of code on a new line beneath our last snippet.</p>
+<p>The following line of code on a new line beneath our last snippet.</p>
 <pre><code class="lang-python">    model.save(<span class="hljs-string">&apos;mnist.h5&apos;</span>)
 </code></pre>
 <p>When our neural network has finished training, it&apos;s knowledge will be saved to a file &quot;mnist.h5&quot; in the same directory as our project.</p>
-<p>Save <code>train.py</code> and close it, we&apos;re finished here &#x1F4AA;</p>
 <h2 id="serving-our-neural-network">Serving Our Neural Network</h2>
 <p>Once we&apos;ve trained our neural network, we&apos;ll want to put it somewhere for people to use it, so we&apos;ll create a simple HTTP server with the Flask framework.</p>
 <p>For this, we&apos;ll be working in the <code>server.py</code> file. Open it up for editing in your favourite IDE.</p>
 <h3 id="importing-dependencies">Importing Dependencies</h3>
-<p>As with our <code>train.py</code> we need to import the dependencies that our server will need to function - namely, Flask, Keras, and NumPy. Copy and paste the following code at the top of the <code>server.py</code> file.</p>
+<p>As with our <code>train.py</code> we need to import the dependencies that our server will need to function - namely, Flask, Keras, and NumPy. The following code at the top of the <code>server.py</code> file.</p>
 <pre><code class="lang-python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, request
 <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> render_template
 <span class="hljs-keyword">import</span> keras, sys, json
@@ -351,7 +350,7 @@ application = Flask(__name__)
 stored_model = <span class="hljs-keyword">None</span>
 </code></pre>
 <p>We&apos;ve also created two variables <code>application</code> and <code>stored_model</code>. <code>application</code> creates an instance of the Flask HTTP server that we can configure to listen for connections. The <code>stored_model</code> variable is where we&apos;ll load our trained model that we create when <code>train.py</code> is run. </p>
-<p>Next, we need to define the paths that the server will serve resources on. Copy and paste the following block of code on a new line after <code>stored_model</code>:</p>
+<p>Next, we need to define the paths that the server will serve resources on. The following block of code on a new line after <code>stored_model</code>:</p>
 <pre><code class="lang-python"><span class="hljs-meta">@application.route(&quot;/&quot;)</span>
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span><span class="hljs-params">()</span>:</span>
     <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&apos;index.html&apos;</span>)
@@ -369,7 +368,7 @@ stored_model = <span class="hljs-keyword">None</span>
 </code></pre>
 <p>Our first route will serve the <code>index.html</code> file from the <code>resources</code> folder (included when from the repo that we forked our copy from) when a request is made to <code>/</code> on our server.</p>
 <p>The second route will accept an array of pixel values passed in a JSON formatted array to <code>/predict</code>. These values will be reshaped to fit the dimensions that our neural network expects as input, and will then be classified by the network. The result of the neural network is then passed back as a response to the request in JSON formatted object. </p>
-<p>Finally, we&apos;ll create a function which we will be able to trigger to start the server listening on a given port. Copy and paste the following below the last block of code.</p>
+<p>Finally, we&apos;ll create a function which we will be able to trigger to start the server listening on a given port. The following below the last block of code.</p>
 <pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start</span><span class="hljs-params">()</span>:</span>
     <span class="hljs-keyword">global</span> stored_model
 
@@ -384,7 +383,7 @@ stored_model = <span class="hljs-keyword">None</span>
 <p>So, now we have code to train and code to serve it to people once it&apos;s ready, but how will Minishift know what to do when? </p>
 <p>Simple! We&apos;ll write a little bit of code that will check if there&apos;s a model ready to be used, if there is, we&apos;ll start our server. If there isn&apos;t, then we&apos;ll train our model, and start the server when it&apos;s finished.</p>
 <p>When Minishift creates a pod with a Python application, it looks for an <code>app.py</code> file to run. In this file, we&apos;ll import our <code>train.py</code> and <code>serve.py</code> files as dependencies, check whether a model exists, and then act accordingly. </p>
-<p>Open the empty <code>app.py</code> file in your favourite IDE, and add the following code block...</p>
+<p>The following code block is in <code>app.py</code> file...</p>
 <pre><code class="lang-python"><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf
 <span class="hljs-keyword">import</span> os.path
 
@@ -403,14 +402,6 @@ stored_model = <span class="hljs-keyword">None</span>
     print(<span class="hljs-string">&apos;Model exists. Starting server&apos;</span>)
     server.start()
 </code></pre>
-<p>... and then save and close it.</p>
-<p>That&apos;s it! We now have everything we need to train a model, serve the same model, and deploy it to an OpenShift cluster! </p>
-<p>Now, after all of this hard work, it&apos;s time to put it somewhere the our Minishift cluster will be able to find it when it&apos;s time to spin up our cluster, so we&apos;ll commit our changes, and then push them back to GitHub.</p>
-<p>Head to your terminal and run the following commands in the directory you cloned your fork of the repo to:</p>
-<p><code>git add .</code></p>
-<p><code>git commit -m &quot;Application code&quot;</code></p>
-<p><code>git push origin master</code></p>
-<p>This will commit and push all of the files for our application to your GitHub repository.</p>
 <p>Now it&apos;s time for some Minishift goodness.</p>
 <h2 id="deploying-our-application-to-minishift">Deploying our application to Minishift.</h2>
 <h3 id="creating-our-project--application">Creating our project + application</h3>
@@ -434,7 +425,7 @@ stored_model = <span class="hljs-keyword">None</span>
 <p>Fill in the values for project with the following values:</p>
 <h4 id="project-name">Project Name</h4>
 <p>keras-mnist</p>
-<h4 id="project-name">Project Name</h4>
+<h4 id="project-display-name">Project Display Name</h4>
 <p>keras-mnist</p>
 <h4 id="application-name">Application Name</h4>
 <p>mnist-recognition</p>
@@ -545,7 +536,7 @@ stored_model = <span class="hljs-keyword">None</span>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lab 1 - Training and Deploying Machine Learning Models with Containers","level":"1.1","depth":1,"next":{"title":"Lab 1.1 - Increasing CPU and Memory","level":"1.1.1","depth":2,"path":"CPU-MEMORY.md","ref":"CPU-MEMORY.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2020-01-14T06:06:12.301Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-01-14T06:06:39.543Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lab 1 - Training and Deploying Machine Learning Models with Containers","level":"1.1","depth":1,"next":{"title":"Lab 1.1 - Increasing CPU and Memory","level":"1.1.1","depth":2,"path":"CPU-MEMORY.md","ref":"CPU-MEMORY.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"README.md","mtime":"2020-03-06T07:15:51.024Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-03-06T07:16:20.481Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

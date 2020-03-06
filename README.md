@@ -97,7 +97,7 @@ With your favourite IDE, open the file `train.py`. This is where the code that c
 
 First, we need to import the dependencies that our project will need to run. You don't need to have these installed on your system, Minishift will take care of this later.
 
-In `train.py` copy and paste the following code block at the top of the file:
+In `train.py` the following code block at the top of the file:
 
 
 ```python
@@ -211,7 +211,7 @@ Finally, we have two more layers of neurons. Another dropout layer, and another 
 
 Now that we've constructed our model, it's time to compile it. This is the stage where we tell our neural networks how to measure it's success in categorising a given input, and start passing through data for training
 
-First, we'll copy and paste the code that will compile our model on a new line after out last code snippet.
+The following is the code that will compile our model on a new line after out last code snippet.
 
 ```python
     model.compile(loss=keras.losses.categorical_crossentropy,
@@ -236,7 +236,7 @@ And next, we'll start passing through our data with `model.fit()`
 
 Once our network has been trained, it's time to save our model so we can use it later. Fortunately, this is a comparatively simple affair.
 
-Copy and paste the following line of code on a new line beneath our last snippet.
+The following line of code on a new line beneath our last snippet.
 
 ```python
     model.save('mnist.h5')
@@ -244,7 +244,6 @@ Copy and paste the following line of code on a new line beneath our last snippet
 
 When our neural network has finished training, it's knowledge will be saved to a file "mnist.h5" in the same directory as our project.
 
-Save `train.py` and close it, we're finished here 💪
 
 ## Serving Our Neural Network
 
@@ -254,7 +253,7 @@ For this, we'll be working in the `server.py` file. Open it up for editing in yo
 
 ### Importing Dependencies
 
-As with our `train.py` we need to import the dependencies that our server will need to function - namely, Flask, Keras, and NumPy. Copy and paste the following code at the top of the `server.py` file.
+As with our `train.py` we need to import the dependencies that our server will need to function - namely, Flask, Keras, and NumPy. The following code at the top of the `server.py` file.
 
 ```python
 from flask import Flask, request
@@ -268,7 +267,7 @@ stored_model = None
 
 We've also created two variables `application` and `stored_model`. `application` creates an instance of the Flask HTTP server that we can configure to listen for connections. The `stored_model` variable is where we'll load our trained model that we create when `train.py` is run. 
 
-Next, we need to define the paths that the server will serve resources on. Copy and paste the following block of code on a new line after `stored_model`:
+Next, we need to define the paths that the server will serve resources on. The following block of code on a new line after `stored_model`:
 
 ```python
 @application.route("/")
@@ -291,7 +290,7 @@ Our first route will serve the `index.html` file from the `resources` folder (in
 
 The second route will accept an array of pixel values passed in a JSON formatted array to `/predict`. These values will be reshaped to fit the dimensions that our neural network expects as input, and will then be classified by the network. The result of the neural network is then passed back as a response to the request in JSON formatted object. 
 
-Finally, we'll create a function which we will be able to trigger to start the server listening on a given port. Copy and paste the following below the last block of code.
+Finally, we'll create a function which we will be able to trigger to start the server listening on a given port. The following below the last block of code.
 
 ```python
 def start():
@@ -315,7 +314,7 @@ Simple! We'll write a little bit of code that will check if there's a model read
 
 When Minishift creates a pod with a Python application, it looks for an `app.py` file to run. In this file, we'll import our `train.py` and `serve.py` files as dependencies, check whether a model exists, and then act accordingly. 
 
-Open the empty `app.py` file in your favourite IDE, and add the following code block...
+The following code block is in `app.py` file...
 
 ```python
 import tensorflow as tf
@@ -337,21 +336,6 @@ else:
     server.start()
 
 ```
-... and then save and close it.
-
-That's it! We now have everything we need to train a model, serve the same model, and deploy it to an OpenShift cluster! 
-
-Now, after all of this hard work, it's time to put it somewhere the our Minishift cluster will be able to find it when it's time to spin up our cluster, so we'll commit our changes, and then push them back to GitHub.
-
-Head to your terminal and run the following commands in the directory you cloned your fork of the repo to:
-
-```git add .```
-
-```git commit -m "Application code"```
-
-```git push origin master```
-
-This will commit and push all of the files for our application to your GitHub repository.
 
 Now it's time for some Minishift goodness.
 
@@ -397,7 +381,7 @@ Fill in the values for project with the following values:
 #### Project Name
 keras-mnist
 
-#### Project Name
+#### Project Display Name
 keras-mnist
 
 #### Application Name
