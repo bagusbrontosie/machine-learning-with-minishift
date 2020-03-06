@@ -136,8 +136,6 @@ The variables `batch_size`, `num_classes`, and `epochs` tell our program how to 
 
 `(x_train, y_train), (x_test, y_test)` are variables that will have the data from the MNISt dataset split up into training and validation sets that will be used by the neural network to confirm whether or not it's getting better at the job we've assigned it.
 
-Beneath that, copy and paste the following code snippet. Be sure to maintain the indentation, as Python is very picky about that sort of thing...
-
 ```python
     if K.image_data_format() == 'channels_first':
         x_train = x_train.reshape(x_train.shape[0], 1, img_rows, img_cols)
@@ -175,7 +173,6 @@ Here, we're first casting all of the values describing each image to floats. Nex
 
 For our project, we're going to create a basic 2-Dimensional Convolutional Neural Network. This architecture has been shown to be very effective at recognising patterns in images, and because it's a sequential model (a model data passes from each layer to the next) it's considered to be more more legible than other similarly tasked networks.
 
-Copy and paste the next code snippet on a new line after the last snippet we added.
 
 ```python
     model = Sequential()
