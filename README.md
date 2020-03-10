@@ -25,9 +25,13 @@ Cracking, then let's get started!
 ## In this workshop you will learn...
 
 1) How to build a Convolutional Neural Network (CNN) that can detect handwritten digits (with Keras and the MNIST dataset)
+
 2) How to train and deploy a CNN with the Flask web framework and Keras
+
 3) How to install and run Minishift (a locally run OpenShift cluster of one image) on your machine
+
 4) How to create a project in OpenShift
+
 5) How to create an app in OpenShift and pull the source code for application from GitHub
 
 By the end, you'll end up with a natty web app that will tell you what characters you're drawing, that'll look like this:
